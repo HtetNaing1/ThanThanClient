@@ -3,6 +3,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Than Than Jewellery Brand Colors */
+  --gold-light: #E6D94D;
+  --gold-primary: #BF991A;
+  --gold-dark: #9A7A15;
+  --teal-primary: #00663D;
+  --teal-light: #008050;
+  --teal-dark: #004D2E;
 }
 
 @theme inline {
@@ -10,17 +18,42 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Brand Colors for Tailwind */
+  --color-gold-50: #FDF9E6;
+  --color-gold-100: #FAF0C2;
+  --color-gold-200: #F5E485;
+  --color-gold-300: #E6D94D;
+  --color-gold-400: #D4C42A;
+  --color-gold-500: #BF991A;
+  --color-gold-600: #9A7A15;
+  --color-gold-700: #7A6112;
+  --color-gold-800: #5C490E;
+  --color-gold-900: #3D300A;
+
+  --color-teal-50: #E6F5EE;
+  --color-teal-100: #CCEBDD;
+  --color-teal-200: #99D7BB;
+  --color-teal-300: #66C399;
+  --color-teal-400: #33AF77;
+  --color-teal-500: #008050;
+  --color-teal-600: #00663D;
+  --color-teal-700: #004D2E;
+  --color-teal-800: #00331F;
+  --color-teal-900: #001A0F;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Ensure inputs always have dark text */
+input, textarea, select {
+  color: #171717;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #9ca3af;
 }
