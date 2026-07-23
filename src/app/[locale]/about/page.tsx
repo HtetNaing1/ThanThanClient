@@ -1,7 +1,10 @@
 import { getTranslations } from 'next-intl/server';
-import { Award, Shield, Heart, Sparkles, ArrowRight } from 'lucide-react';
+import { Award, ShieldCheck, Gem, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Reveal from '@/components/ui/Reveal';
+import SectionHeading from '@/components/ui/SectionHeading';
+import LuxButton from '@/components/ui/LuxButton';
 
 interface AboutPageProps {
   params: Promise<{ locale: string }>;
@@ -9,204 +12,150 @@ interface AboutPageProps {
 
 export default async function AboutPage({ params }: AboutPageProps) {
   const { locale } = await params;
+  const loc = locale as 'en' | 'my';
   const t = await getTranslations('about');
 
   const features = [
-    {
-      icon: Award,
-      titleKey: 'quality',
-      descKey: 'qualityDesc',
-      gradient: 'from-gold-500 to-gold-700',
-    },
-    {
-      icon: Shield,
-      titleKey: 'authenticity',
-      descKey: 'authenticityDesc',
-      gradient: 'from-emerald-500 to-teal-500',
-    },
-    {
-      icon: Heart,
-      titleKey: 'craftsmanship',
-      descKey: 'craftsmanshipDesc',
-      gradient: 'from-rose-500 to-pink-500',
-    },
+    { icon: Award, titleKey: 'quality', descKey: 'qualityDesc' },
+    { icon: ShieldCheck, titleKey: 'authenticity', descKey: 'authenticityDesc' },
+    { icon: Gem, titleKey: 'craftsmanship', descKey: 'craftsmanshipDesc' },
   ];
 
   const stats = [
-    { value: '10+', label: 'Years Experience' },
-    { value: '5000+', label: 'Happy Customers' },
-    { value: '2000+', label: 'Products Sold' },
-    { value: '100%', label: 'Authentic' },
+    { value: '10+', label: loc === 'en' ? 'Years of craft' : 'အတွေ့အကြုံနှစ်' },
+    { value: '5,000+', label: loc === 'en' ? 'Cherished clients' : 'ဖောက်သည်များ' },
+    { value: '2,000+', label: loc === 'en' ? 'Pieces homed' : 'ရောင်းချပြီး' },
+    { value: '100%', label: loc === 'en' ? 'Authentic' : 'အစစ်အမှန်' },
   ];
 
   return (
     <div className="overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative min-h-[60vh] flex items-center bg-gradient-to-br from-amber-50 via-white to-gold-50">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-200/30 via-transparent to-transparent" />
-        </div>
-
-        <div className="absolute top-20 right-20 w-96 h-96 bg-gold-300/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-20 w-72 h-72 bg-gold-400/10 rounded-full blur-3xl" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/30 mb-6">
-              <Sparkles className="w-4 h-4 text-gold-600" />
-              <span className="text-sm font-medium text-gold-700">Our Story</span>
-            </div>
-
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
-              {t('title')}
-            </h1>
-
-            <p className="text-xl text-gray-600 leading-relaxed">
-              {t('subtitle')}
-            </p>
+      {/* Hero — emerald */}
+      <section className="relative bg-forest-800 text-champagne-soft">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_25%,rgba(196,154,61,0.16),transparent_55%)]" />
+        <div className="relative max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-24 text-center">
+          <span className="eyebrow eyebrow-light block animate-rise" style={{ animationDelay: '80ms' }}>
+            {t('subtitle')}
+          </span>
+          <h1
+            className="font-display font-light text-[2.75rem] sm:text-6xl lg:text-7xl text-white leading-[1.05] mt-5 animate-rise"
+            style={{ animationDelay: '180ms' }}
+          >
+            {t('title')}
+          </h1>
+          <div className="gem-divider mt-8 animate-rise" style={{ animationDelay: '300ms' }}>
+            <span className="gem" />
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="relative -mt-16 z-10">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-3xl shadow-2xl shadow-black/5 p-8 grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gold-500 to-gold-600 bg-clip-text text-transparent">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-gray-500 mt-1">{stat.label}</div>
+      {/* Stats */}
+      <section className="relative -mt-12 z-10">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6 lg:px-8">
+          <Reveal className="bg-ivory-card border border-gold-500/25 p-6 sm:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 shadow-[0_30px_60px_-40px_rgba(31,27,20,0.5)]">
+            {stats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="font-display text-4xl md:text-5xl font-light text-gold-700">{stat.value}</div>
+                <div className="eyebrow text-[0.58rem] mt-2">{stat.label}</div>
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* Story Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <span className="text-sm font-semibold uppercase tracking-wider text-gold-600">
-                Our Journey
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-6">
+      {/* Story */}
+      <section className="py-14 sm:py-20">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <Reveal>
+              <span className="eyebrow">{loc === 'en' ? 'Our Journey' : 'ခရီးစဉ်'}</span>
+              <h2 className="font-display font-light text-[2rem] sm:text-4xl md:text-5xl text-forest-900 mt-4 mb-7 sm:mb-8 leading-tight">
                 {t('storyTitle')}
               </h2>
-              <div className="space-y-6 text-gray-600 leading-relaxed">
+              <div className="space-y-6 text-ink-muted leading-relaxed">
                 <p>{t('storyPara1')}</p>
                 <p>{t('storyPara2')}</p>
                 <p>{t('storyPara3')}</p>
               </div>
-            </div>
+            </Reveal>
 
-            <div className="relative">
-              <div className="aspect-square bg-gradient-to-br from-gold-100 to-gold-50 rounded-3xl overflow-hidden relative">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative">
-                    <Image
-                      src="/logo-full.png"
-                      alt="Than Than Jewellery"
-                      width={1200}
-                      height={1200}
-                      className="w-150 h-150 object-contain drop-shadow-2xl"
-                    />
-                    <div className="absolute inset-0 bg-gold-500/20 rounded-full blur-3xl -z-10" />
-                  </div>
+            <Reveal delay={120}>
+              <div className="aspect-square bg-forest-800 overflow-hidden relative flex items-center justify-center">
+                <div className="ring-frame absolute inset-[10%]" />
+                <div className="relative w-[55%] aspect-square">
+                  <div className="absolute inset-0 bg-gold-500/10 blur-3xl rounded-full" />
+                  <Image
+                    src="/logo-icon.png"
+                    alt="Than Than Jewellery"
+                    fill
+                    className="object-contain drop-shadow-[0_18px_40px_rgba(0,0,0,0.45)]"
+                  />
                 </div>
-
-                {/* Decorative elements */}
-                <div className="absolute top-8 right-8 w-4 h-4 bg-gold-500 rounded-full animate-bounce" />
-                <div className="absolute bottom-12 left-8 w-3 h-3 bg-gold-400 rounded-full animate-bounce delay-150" />
-                <div className="absolute top-1/2 right-12 w-2 h-2 bg-gold-300 rounded-full animate-ping" />
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-sm font-semibold uppercase tracking-wider text-gold-600">
-              Our Promise
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2">
-              {t('whyChooseUs')}
-            </h2>
-          </div>
+      {/* Promise */}
+      <section className="py-14 sm:py-20 bg-champagne-soft/40">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow={loc === 'en' ? 'Our Promise' : 'ကတိ'}
+            title={t('whyChooseUs')}
+            className="mb-10 sm:mb-12"
+          />
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="group bg-white rounded-3xl p-8 transition-all duration-500 hover:shadow-2xl hover:shadow-black/5 hover:-translate-y-1"
-              >
-                <div className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                  <feature.icon className="w-8 h-8 text-white" />
+          <div className="grid md:grid-cols-3 gap-6">
+            {features.map((feature, i) => (
+              <Reveal key={feature.titleKey} delay={i * 110}>
+                <div className="lux-card p-8 sm:p-9 text-center h-full">
+                  <div className="w-14 h-14 mx-auto mb-6 flex items-center justify-center border border-gold-500/40 rounded-full">
+                    <feature.icon className="w-6 h-6 text-gold-600" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="font-display text-2xl text-forest-900 mb-3">{t(feature.titleKey)}</h3>
+                  <p className="text-ink-muted leading-relaxed text-sm">{t(feature.descKey)}</p>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
-                  {t(feature.titleKey)}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {t(feature.descKey)}
-                </p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-br from-gold-50 via-amber-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative rounded-3xl bg-white border border-gold-200 p-12 md:p-20 overflow-hidden shadow-xl shadow-gold-100/50">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-gold-200/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-gold-300/20 rounded-full blur-3xl" />
-
-            <div className="relative text-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                {t('contactTitle')}
-              </h2>
-              <p className="text-gray-600 text-lg max-w-2xl mx-auto mb-10">
-                {t('contactDesc')}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="https://m.me/thanthanjewellery"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#0084FF] text-white font-semibold rounded-xl hover:bg-[#0073E6] transition-all shadow-lg shadow-blue-500/25"
-                >
-                  {t('messageUs')}
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-                <a
-                  href="tel:+959123456789"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-gold-500 to-gold-600 text-white font-semibold rounded-xl hover:from-gold-600 hover:to-gold-700 transition-all shadow-lg shadow-gold-500/25"
-                >
-                  {t('callUs')}
-                </a>
-              </div>
-            </div>
+      {/* Contact — emerald */}
+      <section className="relative py-14 sm:py-20 bg-forest-800 text-champagne-soft overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(196,154,61,0.12),transparent_60%)]" />
+        <Reveal className="relative max-w-3xl mx-auto px-5 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-display font-light text-[2rem] sm:text-4xl md:text-5xl text-white mb-5 leading-tight">
+            {t('contactTitle')}
+          </h2>
+          <p className="text-champagne-soft/70 text-base sm:text-lg max-w-xl mx-auto mb-9 sm:mb-10">
+            {t('contactDesc')}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <LuxButton href="https://m.me/thanthanjewellery" target="_blank" rel="noopener noreferrer" variant="gold" className="group">
+              {t('messageUs')}
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </LuxButton>
+            <LuxButton href="tel:+959123456789" variant="outlineLight">
+              {t('callUs')}
+            </LuxButton>
           </div>
-        </div>
+        </Reveal>
       </section>
 
-      {/* Browse Products CTA */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-gray-500 mb-4">Ready to find your perfect piece?</p>
+      {/* Browse CTA */}
+      <section className="py-14 sm:py-16">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 text-center">
+          <p className="text-ink-muted mb-4">
+            {loc === 'en' ? 'Ready to find your piece?' : 'သင့်ပစ္စည်း ရှာဖွေရန် အသင့်ဖြစ်ပြီလား?'}
+          </p>
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 text-gold-600 font-semibold hover:text-gold-700 transition-colors"
+            className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.14em] text-gold-700 hover:text-gold-900 transition-colors group"
           >
-            Browse Our Collection
-            <ArrowRight className="w-4 h-4" />
+            {loc === 'en' ? 'Browse the Collection' : 'စုစည်းမှုကို ကြည့်ရန်'}
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
       </section>

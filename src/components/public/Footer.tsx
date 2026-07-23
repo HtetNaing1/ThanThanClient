@@ -3,116 +3,85 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { Facebook, Instagram, Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
+import { Facebook, Instagram, Phone, Mail, MapPin } from 'lucide-react';
 
 export default function Footer() {
   const t = useTranslations('footer');
-  const tc = useTranslations('common');
-
-  const quickLinks = [
-    { href: '/', label: tc('home') },
-    { href: '/products', label: tc('products') },
-    { href: '/about', label: tc('about') },
-    { href: '/cart', label: tc('cart') },
-  ];
 
   return (
-    <footer className="bg-gradient-to-br from-gold-50 via-amber-50 to-white border-t border-gold-200">
-      {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <footer className="bg-forest-900 text-champagne-soft/80">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 pt-11 sm:pt-16 pb-6 sm:pb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 sm:gap-10 lg:gap-16 items-start">
           {/* Brand */}
-          <div className="lg:col-span-2 flex items-stretch justify-center lg:justify-start">
-            <Link href="/" className="flex items-center justify-center lg:justify-start w-full">
+          <div className="col-span-2 lg:col-span-1">
+            <Link href="/" className="flex items-center gap-3">
               <Image
-                src="/logo-full.png"
-                alt="Than Than Gems & Jewelry"
-                width={400}
-                height={300}
-                className="h-full max-h-56 w-auto object-contain"
+                src="/logo-icon.png"
+                alt="Than Than Jewellery"
+                width={96}
+                height={96}
+                className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
               />
+              <span>
+                <span className="font-display text-xl sm:text-2xl text-white block leading-none">Than Than</span>
+                <span className="eyebrow eyebrow-light block mt-1.5 text-[0.6rem]">Gems &amp; Fine Jewellery</span>
+              </span>
             </Link>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-gray-900 font-semibold mb-6">{t('quickLinks')}</h3>
-            <ul className="space-y-3">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="inline-flex items-center gap-2 text-gray-600 hover:text-gold-600 transition-colors group"
-                  >
-                    <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all" />
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <p className="mt-4 sm:mt-6 text-sm leading-relaxed max-w-xs text-champagne-soft/55">
+              {t('description')}.
+            </p>
           </div>
 
           {/* Contact */}
           <div>
-            <h3 className="text-gray-900 font-semibold mb-4">{t('contactUs')}</h3>
-            <ul className="space-y-3">
+            <h3 className="eyebrow eyebrow-light">{t('contactUs')}</h3>
+            <ul className="mt-4 sm:mt-5 space-y-3 sm:space-y-4 text-[0.8rem] sm:text-sm">
               <li>
-                <a
-                  href="tel:+959123456789"
-                  className="flex items-center gap-3 text-gray-600 hover:text-gold-600 transition-colors"
-                >
-                  <div className="w-9 h-9 bg-gold-100 rounded-xl flex items-center justify-center">
-                    <Phone className="w-4 h-4 text-gold-600" />
-                  </div>
-                  <span className="text-sm">+95 9 123 456 789</span>
+                <a href="tel:+959123456789" className="flex items-center gap-2.5 sm:gap-3 text-champagne-soft/70 hover:text-gold-300 transition-colors">
+                  <Phone className="w-4 h-4 text-gold-400 shrink-0" strokeWidth={1.5} />
+                  <span className="min-w-0">+95 9 123 456 789</span>
                 </a>
               </li>
               <li>
-                <a
-                  href="mailto:info@thanthanjewellery.com"
-                  className="flex items-center gap-3 text-gray-600 hover:text-gold-600 transition-colors"
-                >
-                  <div className="w-9 h-9 bg-gold-100 rounded-xl flex items-center justify-center">
-                    <Mail className="w-4 h-4 text-gold-600" />
-                  </div>
-                  <span className="text-sm">info@thanthanjewellery.com</span>
+                <a href="mailto:info@thanthanjewellery.com" className="flex items-center gap-2.5 sm:gap-3 text-champagne-soft/70 hover:text-gold-300 transition-colors">
+                  <Mail className="w-4 h-4 text-gold-400 shrink-0" strokeWidth={1.5} />
+                  <span className="min-w-0 break-all">thanthanjewellery.com</span>
                 </a>
               </li>
-              <li className="flex items-center gap-3 text-gray-600">
-                <div className="w-9 h-9 bg-gold-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-4 h-4 text-gold-600" />
-                </div>
-                <span className="text-sm">Yangon, Myanmar</span>
+              <li className="flex items-center gap-2.5 sm:gap-3 text-champagne-soft/70">
+                <MapPin className="w-4 h-4 text-gold-400 shrink-0" strokeWidth={1.5} />
+                <span className="min-w-0">Yangon, Myanmar</span>
               </li>
             </ul>
-            {/* Social Links */}
-            <div className="flex gap-2 mt-4">
+          </div>
+
+          {/* Follow */}
+          <div className="text-right">
+            <h3 className="eyebrow eyebrow-light">{t('followUs')}</h3>
+            <div className="flex items-center justify-end gap-3 mt-4 sm:mt-5">
               <a
                 href="#"
-                className="w-9 h-9 bg-gold-100 rounded-xl flex items-center justify-center text-gold-600 hover:bg-gold-500 hover:text-white transition-all duration-300"
+                aria-label="Facebook"
+                className="w-10 h-10 flex items-center justify-center border border-gold-500/30 text-gold-300 hover:bg-gold-500 hover:text-forest-900 hover:border-gold-500 transition-all duration-300"
               >
                 <Facebook className="w-4 h-4" />
               </a>
               <a
                 href="#"
-                className="w-9 h-9 bg-gold-100 rounded-xl flex items-center justify-center text-gold-600 hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 hover:text-white transition-all duration-300"
+                aria-label="Instagram"
+                className="w-10 h-10 flex items-center justify-center border border-gold-500/30 text-gold-300 hover:bg-gold-500 hover:text-forest-900 hover:border-gold-500 transition-all duration-300"
               >
                 <Instagram className="w-4 h-4" />
               </a>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-gold-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-gray-500">
-              &copy; {new Date().getFullYear()} Than Than Jewellery. {t('rights')}.
-            </p>
-            <span className="text-sm text-gray-500">Crafted with care in Myanmar</span>
-          </div>
+        <div className="mt-9 sm:mt-14 pt-5 sm:pt-6 border-t border-gold-500/15 flex flex-col md:flex-row items-center justify-between gap-2 sm:gap-3">
+          <p className="text-xs text-champagne-soft/50">
+            &copy; {new Date().getFullYear()} Than Than Jewellery. {t('rights')}.
+          </p>
+          <p className="text-xs text-champagne-soft/50 tracking-wide">Handcrafted with care in Myanmar</p>
         </div>
       </div>
     </footer>

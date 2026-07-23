@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import {
   Package,
   ShoppingBag,
@@ -9,7 +10,6 @@ import {
   Users,
   FolderOpen,
   TrendingUp,
-  Clock,
 } from 'lucide-react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { analyticsApi } from '@/lib/api';
@@ -42,50 +42,11 @@ interface DashboardData {
     name: { en: string; my: string };
     price: number;
     soldAt: string;
-    soldBy?: { name: string };
   }>;
-}
-
-function StatCard({
-  title,
-  value,
-  icon: Icon,
-  color,
-  subtext,
-}: {
-  title: string;
-  value: string | number;
-  icon: React.ElementType;
-  color: string;
-  subtext?: string;
-}) {
-  return (
-    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-sm text-gray-500 font-medium">{title}</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{value}</p>
-          {subtext && <p className="text-xs text-gray-400 mt-1">{subtext}</p>}
-        </div>
-        <div className={`p-3 rounded-lg ${color}`}>
-          <Icon className="w-6 h-6 text-white" />
-        </div>
-      </div>
-    </div>
-  );
 }
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat('en-US').format(price) + ' MMK';
-}
-
-function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
 }
 
 export default function DashboardPage() {
@@ -120,95 +81,161 @@ export default function DashboardPage() {
         {/* Header */}
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-500 mt-1">
-            Welcome back, {user?.name}! Here&apos;s what&apos;s happening with your store.
-          </p>
+          <p className="text-gray-500 mt-1">Welcome back, {user?.name}</p>
         </div>
 
         {user?.role === 'admin' ? (
           isLoading ? (
             <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold-600"></div>
             </div>
           ) : data ? (
             <>
               {/* Stats Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <StatCard
-                  title="Total Products"
-                  value={data.overview.totalProducts}
-                  icon={Package}
-                  color="bg-blue-500"
-                  subtext={`${data.overview.availableProducts} available`}
-                />
-                <StatCard
-                  title="Products Sold"
-                  value={data.overview.soldProducts}
-                  icon={ShoppingBag}
-                  color="bg-green-500"
-                />
-                <StatCard
-                  title="Total Sales"
-                  value={formatPrice(data.overview.totalSalesValue)}
-                  icon={DollarSign}
-                  color="bg-amber-500"
-                />
-                <StatCard
-                  title="Today's Views"
-                  value={data.today.pageViews}
-                  icon={Eye}
-                  color="bg-purple-500"
-                  subtext={`${data.today.uniqueVisitors} unique visitors`}
-                />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <Package className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-gray-900">{data.overview.totalProducts}</p>
+                      <p className="text-xs text-gray-500">Total Products</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-green-100 rounded-lg">
+                      <ShoppingBag className="w-5 h-5 text-green-600" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-gray-900">{data.overview.availableProducts}</p>
+                      <p className="text-xs text-gray-500">Available</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-orange-100 rounded-lg">
+                      <TrendingUp className="w-5 h-5 text-orange-600" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-gray-900">{data.overview.soldProducts}</p>
+                      <p className="text-xs text-gray-500">Sold</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-purple-100 rounded-lg">
+                      <FolderOpen className="w-5 h-5 text-purple-600" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-gray-900">{data.overview.totalCategories}</p>
+                      <p className="text-xs text-gray-500">Categories</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-pink-100 rounded-lg">
+                      <Users className="w-5 h-5 text-pink-600" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-gray-900">{data.overview.totalUsers}</p>
+                      <p className="text-xs text-gray-500">Users</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-gold-100 rounded-lg">
+                      <DollarSign className="w-5 h-5 text-gold-600" />
+                    </div>
+                    <div>
+                      <p className="text-lg font-bold text-gray-900">{formatPrice(data.overview.totalSalesValue)}</p>
+                      <p className="text-xs text-gray-500">Total Sales</p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Secondary Stats */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <StatCard
-                  title="Categories"
-                  value={data.overview.totalCategories}
-                  icon={FolderOpen}
-                  color="bg-indigo-500"
-                />
-                <StatCard
-                  title="Team Members"
-                  value={data.overview.totalUsers}
-                  icon={Users}
-                  color="bg-pink-500"
-                />
+              {/* Today's Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                  <h2 className="text-lg font-semibold text-gray-900 mb-4">Today&apos;s Traffic</h2>
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-indigo-100 rounded-lg">
+                      <Eye className="w-6 h-6 text-indigo-600" />
+                    </div>
+                    <div>
+                      <p className="text-3xl font-bold text-gray-900">{data.today.pageViews}</p>
+                      <p className="text-sm text-gray-500">{data.today.uniqueVisitors} unique visitors</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                  <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Links</h2>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Link
+                      href="/admin/products"
+                      className="p-3 bg-gray-50 rounded-lg hover:bg-gold-50 transition-colors text-center"
+                    >
+                      <Package className="w-5 h-5 text-gray-600 mx-auto mb-1" />
+                      <span className="text-sm text-gray-700">Products</span>
+                    </Link>
+                    <Link
+                      href="/admin/categories"
+                      className="p-3 bg-gray-50 rounded-lg hover:bg-gold-50 transition-colors text-center"
+                    >
+                      <FolderOpen className="w-5 h-5 text-gray-600 mx-auto mb-1" />
+                      <span className="text-sm text-gray-700">Categories</span>
+                    </Link>
+                    <Link
+                      href="/admin/users"
+                      className="p-3 bg-gray-50 rounded-lg hover:bg-gold-50 transition-colors text-center"
+                    >
+                      <Users className="w-5 h-5 text-gray-600 mx-auto mb-1" />
+                      <span className="text-sm text-gray-700">Users</span>
+                    </Link>
+                    <Link
+                      href="/admin/analytics"
+                      className="p-3 bg-gray-50 rounded-lg hover:bg-gold-50 transition-colors text-center"
+                    >
+                      <TrendingUp className="w-5 h-5 text-gray-600 mx-auto mb-1" />
+                      <span className="text-sm text-gray-700">Analytics</span>
+                    </Link>
+                  </div>
+                </div>
               </div>
 
-              {/* Two Column Layout */}
+              {/* Recent Activity */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Most Viewed Products */}
+                {/* Most Viewed */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100">
                   <div className="px-6 py-4 border-b border-gray-100">
-                    <div className="flex items-center gap-2">
-                      <TrendingUp className="w-5 h-5 text-amber-600" />
-                      <h2 className="font-semibold text-gray-900">Most Viewed Products</h2>
-                    </div>
+                    <h2 className="font-semibold text-gray-900">Most Viewed Products</h2>
                   </div>
                   <div className="divide-y divide-gray-100">
                     {data.mostViewedProducts.length === 0 ? (
                       <p className="px-6 py-8 text-center text-gray-500">No products yet</p>
                     ) : (
-                      data.mostViewedProducts.map((product) => (
+                      data.mostViewedProducts.slice(0, 5).map((product) => (
                         <div key={product._id} className="px-6 py-3 flex items-center justify-between">
                           <div>
                             <p className="font-medium text-gray-900">{product.name.en}</p>
                             <p className="text-sm text-gray-500">{product.productId}</p>
                           </div>
                           <div className="text-right">
-                            <p className="font-medium text-gray-900">{product.viewCount} views</p>
-                            <span
-                              className={`text-xs px-2 py-0.5 rounded-full ${
-                                product.status === 'available'
-                                  ? 'bg-green-100 text-green-700'
-                                  : 'bg-red-100 text-red-700'
-                              }`}
-                            >
-                              {product.status}
-                            </span>
+                            <p className="font-semibold text-gray-900">{product.viewCount}</p>
+                            <p className="text-xs text-gray-500">views</p>
                           </div>
                         </div>
                       ))
@@ -219,27 +246,19 @@ export default function DashboardPage() {
                 {/* Recent Sales */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100">
                   <div className="px-6 py-4 border-b border-gray-100">
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-5 h-5 text-amber-600" />
-                      <h2 className="font-semibold text-gray-900">Recent Sales</h2>
-                    </div>
+                    <h2 className="font-semibold text-gray-900">Recent Sales</h2>
                   </div>
                   <div className="divide-y divide-gray-100">
                     {data.recentSales.length === 0 ? (
                       <p className="px-6 py-8 text-center text-gray-500">No sales yet</p>
                     ) : (
-                      data.recentSales.map((sale) => (
+                      data.recentSales.slice(0, 5).map((sale) => (
                         <div key={sale._id} className="px-6 py-3 flex items-center justify-between">
                           <div>
                             <p className="font-medium text-gray-900">{sale.name.en}</p>
-                            <p className="text-sm text-gray-500">
-                              {sale.productId} • {sale.soldBy?.name || 'Unknown'}
-                            </p>
+                            <p className="text-sm text-gray-500">{sale.productId}</p>
                           </div>
-                          <div className="text-right">
-                            <p className="font-medium text-amber-600">{formatPrice(sale.price)}</p>
-                            <p className="text-xs text-gray-500">{formatDate(sale.soldAt)}</p>
-                          </div>
+                          <p className="font-semibold text-green-600">{formatPrice(sale.price)}</p>
                         </div>
                       ))
                     )}
@@ -254,32 +273,24 @@ export default function DashboardPage() {
           )
         ) : (
           /* Moderator Dashboard */
-          <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Package className="w-8 h-8 text-amber-600" />
-              </div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Moderator Dashboard</h2>
-              <p className="text-gray-500 mb-6">
-                As a moderator, you can manage products and categories.
-              </p>
-              <div className="flex justify-center gap-4">
-                <a
-                  href="/admin/products"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
-                >
-                  <Package className="w-4 h-4" />
-                  Manage Products
-                </a>
-                <a
-                  href="/admin/categories"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-                >
-                  <FolderOpen className="w-4 h-4" />
-                  Manage Categories
-                </a>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Link
+              href="/admin/products"
+              className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:border-gold-300 transition-colors"
+            >
+              <Package className="w-10 h-10 text-gold-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900">Manage Products</h3>
+              <p className="text-sm text-gray-500 mt-1">Add, edit, and manage products</p>
+            </Link>
+
+            <Link
+              href="/admin/categories"
+              className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:border-gold-300 transition-colors"
+            >
+              <FolderOpen className="w-10 h-10 text-gold-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900">Manage Categories</h3>
+              <p className="text-sm text-gray-500 mt-1">Organize products into categories</p>
+            </Link>
           </div>
         )}
       </div>

@@ -310,22 +310,22 @@ export default function ProductsPage() {
 
         {/* Filters */}
         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1 relative">
+          <div className="flex flex-col gap-3">
+            <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500 text-sm"
               />
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="flex-1 sm:flex-none px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500 text-sm"
               >
                 <option value="all">All Status</option>
                 <option value="available">Available</option>
@@ -334,7 +334,7 @@ export default function ProductsPage() {
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="flex-1 sm:flex-none px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500 text-sm"
               >
                 <option value="">All Categories</option>
                 {categories.map((cat) => (
@@ -350,7 +350,7 @@ export default function ProductsPage() {
         {/* Products Grid */}
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold-600"></div>
           </div>
         ) : products.length === 0 ? (
           <div className="bg-white rounded-xl p-12 text-center shadow-sm border border-gray-100">
@@ -396,16 +396,16 @@ export default function ProductsPage() {
                     </div>
                     {product.featured && (
                       <div className="absolute top-2 right-2">
-                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-700">
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-gold-100 text-gold-700">
                           Featured
                         </span>
                       </div>
                     )}
-                    {/* Actions Overlay */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
+                    {/* Actions Overlay - Desktop only */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors hidden sm:flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
                       <button
                         onClick={() => openEditModal(product)}
-                        className="p-2 bg-white rounded-lg text-gray-700 hover:bg-amber-50 hover:text-amber-600"
+                        className="p-2 bg-white rounded-lg text-gray-700 hover:bg-gold-50 hover:text-gold-600"
                       >
                         <Pencil className="w-4 h-4" />
                       </button>
@@ -433,14 +433,48 @@ export default function ProductsPage() {
                       )}
                     </div>
                   </div>
-                  <div className="p-4">
+                  <div className="p-3 sm:p-4">
                     <p className="text-xs text-gray-400 mb-1">{product.productId}</p>
-                    <h3 className="font-semibold text-gray-900 truncate">{product.name.en}</h3>
-                    <p className="text-sm text-gray-500 truncate">{product.name.my}</p>
-                    <p className="text-amber-600 font-semibold mt-2">{formatPrice(product.price)}</p>
+                    <h3 className="font-semibold text-gray-900 truncate text-sm sm:text-base">{product.name.en}</h3>
+                    <p className="text-xs sm:text-sm text-gray-500 truncate">{product.name.my}</p>
+                    <p className="text-gold-600 font-semibold mt-2 text-sm sm:text-base">{formatPrice(product.price)}</p>
                     <div className="flex items-center justify-between mt-2">
-                      <span className="text-xs text-gray-400">{product.category?.name?.en}</span>
-                      <span className="text-xs text-gray-400">{product.viewCount} views</span>
+                      <span className="text-xs text-gray-400 truncate">{product.category?.name?.en}</span>
+                      <span className="text-xs text-gray-400 flex-shrink-0">{product.viewCount} views</span>
+                    </div>
+                    {/* Mobile Action Buttons */}
+                    <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 sm:hidden">
+                      <button
+                        onClick={() => openEditModal(product)}
+                        className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-gold-50 text-gold-600 rounded-lg text-xs font-medium"
+                      >
+                        <Pencil className="w-3.5 h-3.5" />
+                        Edit
+                      </button>
+                      {product.status === 'available' && (
+                        <button
+                          onClick={() => {
+                            setSellingProduct(product);
+                            setIsSoldModalOpen(true);
+                          }}
+                          className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-green-50 text-green-600 rounded-lg text-xs font-medium"
+                        >
+                          <Check className="w-3.5 h-3.5" />
+                          Sold
+                        </button>
+                      )}
+                      {canDelete && (
+                        <button
+                          onClick={() => {
+                            setDeletingProduct(product);
+                            setIsDeleteModalOpen(true);
+                          }}
+                          className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-red-50 text-red-600 rounded-lg text-xs font-medium"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          Delete
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -449,21 +483,25 @@ export default function ProductsPage() {
 
             {/* Pagination */}
             {pagination.totalPages > 1 && (
-              <div className="flex justify-center gap-2">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
                 <Button
                   variant="secondary"
+                  size="sm"
                   disabled={pagination.page === 1}
                   onClick={() => setPagination((prev) => ({ ...prev, page: prev.page - 1 }))}
+                  className="w-full sm:w-auto"
                 >
                   Previous
                 </Button>
-                <span className="flex items-center px-4 text-gray-500">
+                <span className="text-sm text-gray-500 order-first sm:order-none">
                   Page {pagination.page} of {pagination.totalPages}
                 </span>
                 <Button
                   variant="secondary"
+                  size="sm"
                   disabled={pagination.page === pagination.totalPages}
                   onClick={() => setPagination((prev) => ({ ...prev, page: prev.page + 1 }))}
+                  className="w-full sm:w-auto"
                 >
                   Next
                 </Button>
@@ -503,7 +541,7 @@ export default function ProductsPage() {
               English Description
             </label>
             <textarea
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500 text-sm"
               rows={3}
               placeholder="Enter English description"
               {...register('descriptionEn')}
@@ -518,7 +556,7 @@ export default function ProductsPage() {
               Burmese Description (မြန်မာ)
             </label>
             <textarea
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500 text-sm"
               rows={3}
               placeholder="မြန်မာဖော်ပြချက်ထည့်ပါ"
               {...register('descriptionMy')}
@@ -573,7 +611,7 @@ export default function ProductsPage() {
             <input
               type="checkbox"
               id="featured"
-              className="w-4 h-4 text-amber-600 rounded focus:ring-amber-500"
+              className="w-4 h-4 text-gold-600 rounded focus:ring-gold-500"
               {...register('featured')}
             />
             <label htmlFor="featured" className="text-sm text-gray-700">
@@ -586,7 +624,7 @@ export default function ProductsPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Product Images (max 5)
             </label>
-            <div className="grid grid-cols-5 gap-2 mb-2">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 mb-2">
               {imagePreviews.map((preview, index) => (
                 <div key={index} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
                   <Image src={preview} alt={`Preview ${index + 1}`} fill className="object-cover" />
@@ -600,8 +638,8 @@ export default function ProductsPage() {
                 </div>
               ))}
               {imagePreviews.length < 5 && (
-                <label className="flex flex-col items-center justify-center aspect-square border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-amber-500 transition-colors">
-                  <Upload className="w-6 h-6 text-gray-400" />
+                <label className="flex flex-col items-center justify-center aspect-square border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gold-500 transition-colors">
+                  <Upload className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400" />
                   <input
                     type="file"
                     accept="image/*"
@@ -659,7 +697,7 @@ export default function ProductsPage() {
           <p className="text-gray-600">
             Mark <strong>{sellingProduct?.name.en}</strong> ({sellingProduct?.productId}) as sold?
           </p>
-          <p className="text-sm text-amber-600">
+          <p className="text-sm text-gold-600">
             Price: {sellingProduct ? formatPrice(sellingProduct.price) : ''}
           </p>
           <div className="flex justify-end gap-3">

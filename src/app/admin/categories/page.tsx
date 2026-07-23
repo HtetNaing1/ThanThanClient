@@ -170,12 +170,12 @@ export default function CategoriesPage() {
     <AdminLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Categories</h1>
             <p className="text-gray-500 mt-1">Manage product categories</p>
           </div>
-          <Button onClick={openAddModal}>
+          <Button onClick={openAddModal} className="w-full sm:w-auto">
             <Plus className="w-4 h-4 mr-2" />
             Add Category
           </Button>
@@ -184,7 +184,7 @@ export default function CategoriesPage() {
         {/* Categories Grid */}
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold-600"></div>
           </div>
         ) : categories.length === 0 ? (
           <div className="bg-white rounded-xl p-12 text-center shadow-sm border border-gray-100">
@@ -196,7 +196,7 @@ export default function CategoriesPage() {
             </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
             {categories.map((category) => (
               <div
                 key={category._id}
@@ -215,10 +215,11 @@ export default function CategoriesPage() {
                       <FolderOpen className="w-12 h-12 text-gray-300" />
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
+                  {/* Actions Overlay - Desktop only */}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors hidden sm:flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
                     <button
                       onClick={() => openEditModal(category)}
-                      className="p-2 bg-white rounded-lg text-gray-700 hover:bg-amber-50 hover:text-amber-600"
+                      className="p-2 bg-white rounded-lg text-gray-700 hover:bg-gold-50 hover:text-gold-600"
                     >
                       <Pencil className="w-4 h-4" />
                     </button>
@@ -232,10 +233,29 @@ export default function CategoriesPage() {
                     )}
                   </div>
                 </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-gray-900">{category.name.en}</h3>
-                  <p className="text-sm text-gray-500">{category.name.my}</p>
-                  <p className="text-xs text-gray-400 mt-1">/{category.slug}</p>
+                <div className="p-3 sm:p-4">
+                  <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">{category.name.en}</h3>
+                  <p className="text-xs sm:text-sm text-gray-500 truncate">{category.name.my}</p>
+                  <p className="text-xs text-gray-400 mt-1 truncate">/{category.slug}</p>
+                  {/* Mobile Action Buttons */}
+                  <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 sm:hidden">
+                    <button
+                      onClick={() => openEditModal(category)}
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-gold-50 text-gold-600 rounded-lg text-xs font-medium"
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
+                      Edit
+                    </button>
+                    {canDelete && (
+                      <button
+                        onClick={() => openDeleteModal(category)}
+                        className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-red-50 text-red-600 rounded-lg text-xs font-medium"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        Delete
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -283,7 +303,7 @@ export default function CategoriesPage() {
                 </button>
               </div>
             ) : (
-              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-amber-500 transition-colors">
+              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gold-500 transition-colors">
                 <Upload className="w-8 h-8 text-gray-400" />
                 <span className="mt-2 text-sm text-gray-500">Click to upload image</span>
                 <input

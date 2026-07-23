@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { ShoppingBag, Package, Sparkles } from 'lucide-react';
+import { Plus, Gem } from 'lucide-react';
 import { useCartStore } from '@/stores/cartStore';
 import { toast } from '@/components/ui/Toast';
 
@@ -27,14 +27,11 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
   const t = useTranslations('common');
   const addItem = useCartStore((state) => state.addItem);
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US').format(price);
-  };
+  const formatPrice = (price: number) => new Intl.NumberFormat('en-US').format(price);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
     if (product.status === 'sold') return;
 
     addItem({
@@ -44,87 +41,73 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
       price: product.price,
       images: product.images,
     });
-    toast.success(locale === 'en' ? 'Added to cart!' : 'စျေးခြင်းထဲထည့်ပြီးပါပြီ!');
+    toast.success(locale === 'en' ? 'Added to cart' : 'စျေးခြင်းထဲထည့်ပြီးပါပြီ');
   };
 
   return (
-    <Link
-      href={`/products/${product._id}`}
-      className="group relative bg-white rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-1"
-    >
-      {/* Image Container */}
-      <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
+    <Link href={`/products/${product._id}`} className="group relative lux-card block overflow-hidden">
+      {/* Image */}
+      <div className="aspect-square relative overflow-hidden bg-[#f4efe4]">
         {product.images[0] ? (
           <Image
             src={product.images[0]}
             alt={product.name[locale]}
             fill
-            className="object-cover transition-all duration-700 group-hover:scale-110"
+            className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Package className="w-16 h-16 text-gray-200" />
+          <div className="absolute inset-0 flex items-center justify-center text-gold-300">
+            <Gem className="w-12 h-12" />
           </div>
         )}
-
-        {/* Overlay gradient on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
           {product.featured && (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-full bg-gradient-to-r from-gold-500 to-gold-600 text-white shadow-lg shadow-gold-500/30">
-              <Sparkles className="w-3 h-3" />
+            <span className="tag-id px-2.5 py-1 bg-forest-800/90 text-champagne backdrop-blur-sm">
               {t('featured')}
             </span>
           )}
           {product.status === 'sold' && (
-            <span className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-full bg-gray-900/90 text-white backdrop-blur-sm">
+            <span className="tag-id px-2.5 py-1 bg-ink/85 text-white backdrop-blur-sm">
               {t('sold')}
             </span>
           )}
         </div>
 
-        {/* Quick Add Button */}
+        {/* Quick add */}
         {product.status === 'available' && (
           <button
             onClick={handleAddToCart}
-            className="absolute bottom-3 right-3 p-3 bg-white rounded-full shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-gold-50 hover:scale-110 translate-y-2 group-hover:translate-y-0"
+            aria-label={t('addToCart')}
+            className="absolute bottom-3 right-3 w-10 h-10 flex items-center justify-center bg-ivory-card text-forest-800 border border-gold-500/40 opacity-0 translate-y-1.5 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:bg-gold-500 hover:text-forest-900"
           >
-            <ShoppingBag className="w-5 h-5 text-gold-600" />
+            <Plus className="w-4 h-4" />
           </button>
         )}
-
-        {/* Product ID Tag */}
-        <div className="absolute bottom-3 left-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-          <span className="px-2 py-1 text-[10px] font-medium rounded-md bg-white/90 backdrop-blur-sm text-gray-600">
-            {product.productId}
-          </span>
-        </div>
       </div>
 
       {/* Content */}
-      <div className="p-5">
-        {product.category && (
-          <p className="text-[11px] font-medium uppercase tracking-wider text-gold-600/80 mb-1.5">
-            {product.category.name[locale]}
-          </p>
-        )}
-        <h3 className="font-semibold text-gray-900 text-base leading-snug mb-3 line-clamp-2 group-hover:text-gold-600 transition-colors duration-300">
+      <div className="px-3.5 pt-3.5 pb-4 sm:px-5 sm:pt-4 sm:pb-5">
+        <div className="flex items-center justify-between gap-2 mb-1.5 sm:mb-2">
+          {product.category ? (
+            <span className="eyebrow text-[0.55rem] sm:text-[0.6rem] truncate min-w-0">{product.category.name[locale]}</span>
+          ) : (
+            <span />
+          )}
+          <span className="tag-id text-gold-600/80 shrink-0">{product.productId}</span>
+        </div>
+        <h3 className="font-display text-base sm:text-xl leading-snug text-forest-900 line-clamp-2 min-h-[2.6rem] sm:min-h-[3.2rem] transition-colors duration-300 group-hover:text-gold-700">
           {product.name[locale]}
         </h3>
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-xl font-bold text-gray-900">
-            {formatPrice(product.price)}
-          </span>
-          <span className="text-sm font-medium text-gray-400">
-            {t('currency')}
-          </span>
+        <div className="mt-2.5 pt-2.5 sm:mt-3 sm:pt-3 border-t border-gold-500/15 flex items-baseline gap-1.5">
+          <span className="text-base sm:text-lg font-medium text-forest-900">{formatPrice(product.price)}</span>
+          <span className="tag-id text-ink-muted">{t('currency')}</span>
         </div>
       </div>
 
-      {/* Bottom border accent */}
-      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gold-500 to-gold-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+      {/* Gold underline reveal */}
+      <span className="absolute bottom-0 left-0 right-0 h-px bg-gold-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
     </Link>
   );
 }

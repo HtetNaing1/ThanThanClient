@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   LayoutDashboard,
   Package,
@@ -13,7 +14,6 @@ import {
   LogOut,
   Menu,
   X,
-  Gem,
   ChevronDown,
 } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
@@ -56,8 +56,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gold-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold-600"></div>
       </div>
     );
   }
@@ -71,7 +71,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gold-50/50">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div
@@ -83,21 +83,28 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 z-50 h-full w-64 bg-gray-900 transform transition-transform duration-200 ease-in-out
+          fixed top-0 left-0 z-50 h-full w-64 bg-gradient-to-b from-gold-900 to-gold-800 transform transition-transform duration-200 ease-in-out
           lg:translate-x-0
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
       >
         {/* Logo */}
-        <div className="flex items-center justify-between h-16 px-4 border-b border-gray-800">
-          <Link href="/admin/dashboard" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center">
-              <Gem className="w-5 h-5 text-white" />
+        <div className="flex items-center justify-between h-20 px-4 border-b border-gold-700/50">
+          <Link href="/admin/dashboard" className="flex items-center gap-3">
+            <Image
+              src="/logo-icon.png"
+              alt="Than Than Jewellery"
+              width={48}
+              height={48}
+              className="rounded-lg"
+            />
+            <div className="flex flex-col">
+              <span className="text-white font-semibold text-sm">Than Than</span>
+              <span className="text-gold-300 text-xs">Admin Panel</span>
             </div>
-            <span className="text-white font-semibold">Than Than</span>
           </Link>
           <button
-            className="lg:hidden text-gray-400 hover:text-white"
+            className="lg:hidden text-gold-300 hover:text-white"
             onClick={() => setSidebarOpen(false)}
           >
             <X className="w-6 h-6" />
@@ -115,8 +122,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 className={`
                   flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors
                   ${isActive
-                    ? 'bg-amber-600 text-white'
-                    : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    ? 'bg-white/20 text-white shadow-sm'
+                    : 'text-gold-200 hover:bg-white/10 hover:text-white'
                   }
                 `}
                 onClick={() => setSidebarOpen(false)}
@@ -129,14 +136,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </nav>
 
         {/* User section at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-800">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gold-700/50">
           <div className="flex items-center gap-3 px-3 py-2">
-            <div className="w-8 h-8 bg-amber-600 rounded-full flex items-center justify-center text-white font-medium">
+            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white font-medium">
               {user.name.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-white truncate">{user.name}</p>
-              <p className="text-xs text-gray-400 capitalize">{user.role}</p>
+              <p className="text-xs text-gold-300 capitalize">{user.role}</p>
             </div>
           </div>
         </div>
@@ -145,10 +152,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Main content */}
       <div className="lg:pl-64">
         {/* Top header */}
-        <header className="sticky top-0 z-30 bg-white border-b border-gray-200">
+        <header className="sticky top-0 z-30 bg-white border-b border-gold-100">
           <div className="flex items-center justify-between h-16 px-4 lg:px-8">
             <button
-              className="lg:hidden p-2 -ml-2 text-gray-500 hover:text-gray-700"
+              className="lg:hidden p-2 -ml-2 text-gold-600 hover:text-gold-800"
               onClick={() => setSidebarOpen(true)}
             >
               <Menu className="w-6 h-6" />
@@ -159,16 +166,16 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             {/* User dropdown */}
             <div className="relative">
               <button
-                className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gold-50 transition-colors"
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
               >
-                <div className="w-8 h-8 bg-amber-600 rounded-full flex items-center justify-center text-white font-medium">
+                <div className="w-8 h-8 bg-gold-600 rounded-full flex items-center justify-center text-white font-medium">
                   {user.name.charAt(0).toUpperCase()}
                 </div>
                 <span className="hidden sm:block text-sm font-medium text-gray-700">
                   {user.name}
                 </span>
-                <ChevronDown className="w-4 h-4 text-gray-500" />
+                <ChevronDown className="w-4 h-4 text-gold-600" />
               </button>
 
               {userMenuOpen && (

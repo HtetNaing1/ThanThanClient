@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Gem, Eye, EyeOff } from 'lucide-react';
+import Image from 'next/image';
+import { Eye, EyeOff } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
@@ -53,8 +54,8 @@ export default function AdminLoginPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gold-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold-600"></div>
       </div>
     );
   }
@@ -64,15 +65,21 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gold-900 via-gold-800 to-gold-900 px-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-amber-600 rounded-full mb-4">
-            <Gem className="w-8 h-8 text-white" />
+          <div className="inline-flex items-center justify-center mb-4">
+            <Image
+              src="/logo-icon.png"
+              alt="Than Than Jewellery"
+              width={80}
+              height={80}
+              className="rounded-xl"
+            />
           </div>
           <h1 className="text-2xl font-bold text-white">Than Than Jewellery</h1>
-          <p className="text-gray-400 mt-1">Admin Panel</p>
+          <p className="text-gold-300 mt-1">Admin Panel</p>
         </div>
 
         {/* Login Form */}
@@ -119,7 +126,7 @@ export default function AdminLoginPage() {
           </form>
         </div>
 
-        <p className="text-center text-gray-500 text-sm mt-6">
+        <p className="text-center text-gold-200 text-sm mt-6">
           &copy; {new Date().getFullYear()} Than Than Jewellery. All rights reserved.
         </p>
       </div>

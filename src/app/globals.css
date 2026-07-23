@@ -1,59 +1,360 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  ============================================================
+  Than Than Jewellery — "The Velvet Box" design system
+  Antique gold + deep emerald, grounded in the brand guide.
+  ============================================================
+*/
 
-  /* Than Than Jewellery Brand Colors */
-  --gold-light: #E6D94D;
-  --gold-primary: #BF991A;
-  --gold-dark: #9A7A15;
-  --teal-primary: #00663D;
-  --teal-light: #008050;
-  --teal-dark: #004D2E;
+:root {
+  --background: #faf7f0; /* warm ivory */
+  --foreground: #1f1b14; /* warm ink */
+
+  /* Brand — antique gold (matches the logo) */
+  --gold-champagne: #e4ce6b;
+  --gold-soft: #f3ead3;
+  --gold-primary: #c29a3d;
+  --gold-logo: #be9445;
+  --gold-deep: #9a7a2e;
+
+  /* Brand — deep emerald (the velvet box) */
+  --emerald-primary: #0b4a3f;
+  --emerald-deep: #08362e;
+  --emerald-black: #052722;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-jost);
+  --font-myanmar: var(--font-noto-myanmar);
+  --font-sans: var(--font-jost);
   --font-mono: var(--font-geist-mono);
 
-  /* Brand Colors for Tailwind */
-  --color-gold-50: #FDF9E6;
-  --color-gold-100: #FAF0C2;
-  --color-gold-200: #F5E485;
-  --color-gold-300: #E6D94D;
-  --color-gold-400: #D4C42A;
-  --color-gold-500: #BF991A;
-  --color-gold-600: #9A7A15;
-  --color-gold-700: #7A6112;
-  --color-gold-800: #5C490E;
-  --color-gold-900: #3D300A;
+  /* Antique gold scale */
+  --color-gold-50: #fdfaf0;
+  --color-gold-100: #f6ecc9;
+  --color-gold-200: #ecd99b;
+  --color-gold-300: #e4ce6b;
+  --color-gold-400: #d4b25e;
+  --color-gold-500: #c29a3d;
+  --color-gold-600: #be9445;
+  --color-gold-700: #9a7a2e;
+  --color-gold-800: #6f591f;
+  --color-gold-900: #4a3c15;
 
-  --color-teal-50: #E6F5EE;
-  --color-teal-100: #CCEBDD;
-  --color-teal-200: #99D7BB;
-  --color-teal-300: #66C399;
-  --color-teal-400: #33AF77;
+  /* Deep emerald scale (brand green) */
+  --color-forest-50: #edf5f2;
+  --color-forest-100: #d3e6df;
+  --color-forest-200: #a4cabd;
+  --color-forest-300: #6fa896;
+  --color-forest-400: #3d8271;
+  --color-forest-500: #166e5c;
+  --color-forest-600: #0f5a4c;
+  --color-forest-700: #0b4a3f;
+  --color-forest-800: #08362e;
+  --color-forest-900: #052722;
+
+  /* Named brand tokens */
+  --color-champagne: #e4ce6b;
+  --color-champagne-soft: #f3ead3;
+  --color-ivory: #faf7f0;
+  --color-ivory-card: #fffdf8;
+  --color-ink: #1f1b14;
+  --color-ink-muted: #6b6355;
+
+  /* Keep legacy teal-* for the admin area (unchanged) */
+  --color-teal-50: #e6f5ee;
+  --color-teal-100: #ccebdd;
+  --color-teal-200: #99d7bb;
+  --color-teal-300: #66c399;
+  --color-teal-400: #33af77;
   --color-teal-500: #008050;
-  --color-teal-600: #00663D;
-  --color-teal-700: #004D2E;
-  --color-teal-800: #00331F;
-  --color-teal-900: #001A0F;
+  --color-teal-600: #00663d;
+  --color-teal-700: #004d2e;
+  --color-teal-800: #00331f;
+  --color-teal-900: #001a0f;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), var(--font-myanmar), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Ensure inputs always have dark text */
-input, textarea, select {
-  color: #171717;
+/* Display type: the delicate serif carries the personality */
+.font-display,
+h1.font-display,
+h2.font-display {
+  font-family: var(--font-display), var(--font-myanmar), Georgia, serif;
 }
 
-input::placeholder, textarea::placeholder {
-  color: #9ca3af;
+/* Inputs keep dark, legible text on ivory */
+input,
+textarea,
+select {
+  color: #1f1b14;
+}
+input::placeholder,
+textarea::placeholder {
+  color: #a99f8b;
+}
+
+/*
+  ------------------------------------------------------------
+  Reusable brand components
+  ------------------------------------------------------------
+*/
+
+/* Small-caps label — the couture eyebrow */
+.eyebrow {
+  font-family: var(--font-body), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--gold-deep);
+}
+.eyebrow-light {
+  color: var(--gold-champagne);
+}
+
+/* Product ID / monospace-feeling tag */
+.tag-id {
+  font-family: var(--font-body), sans-serif;
+  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+/* The signature: a gold hairline centered on a small diamond,
+   echoing the trailing gems in the logo mark. */
+.gem-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  color: var(--gold-primary);
+}
+.gem-divider::before,
+.gem-divider::after {
+  content: "";
+  height: 1px;
+  width: clamp(2rem, 12vw, 7rem);
+  background: linear-gradient(
+    to var(--_dir, right),
+    transparent,
+    color-mix(in srgb, var(--gold-primary) 70%, transparent)
+  );
+}
+.gem-divider::before {
+  --_dir: left;
+}
+.gem-divider .gem {
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+  border: 1px solid var(--gold-primary);
+  background: color-mix(in srgb, var(--gold-champagne) 40%, transparent);
+}
+
+/* Hairline used as a refined section rule */
+.rule-gold {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--gold-primary) 55%, transparent),
+    transparent
+  );
+}
+
+/* Buttons — gold is precious, used sparingly and flat (no gradient soup) */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.95rem 2rem;
+  background: var(--gold-primary);
+  color: #1c1608;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 2px;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 30px -12px color-mix(in srgb, var(--gold-primary) 70%, transparent);
+}
+.btn-gold:hover {
+  background: var(--gold-logo);
+  transform: translateY(-1px);
+  box-shadow: 0 16px 36px -14px color-mix(in srgb, var(--gold-primary) 80%, transparent);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.95rem 2rem;
+  border: 1px solid color-mix(in srgb, var(--gold-primary) 55%, transparent);
+  color: var(--gold-deep);
+  background: transparent;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.btn-outline:hover {
+  border-color: var(--gold-primary);
+  background: color-mix(in srgb, var(--gold-champagne) 16%, transparent);
+}
+
+/* Outline on dark emerald surfaces */
+.btn-outline-light {
+  border-color: color-mix(in srgb, var(--gold-champagne) 45%, transparent);
+  color: var(--gold-champagne);
+}
+.btn-outline-light:hover {
+  border-color: var(--gold-champagne);
+  background: color-mix(in srgb, var(--gold-champagne) 12%, transparent);
+}
+
+/* A quiet luxury card */
+.lux-card {
+  background: var(--color-ivory-card, #fffdf8);
+  border: 1px solid color-mix(in srgb, var(--gold-champagne) 42%, transparent);
+  transition: border-color 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease;
+}
+.lux-card:hover {
+  border-color: color-mix(in srgb, var(--gold-primary) 75%, transparent);
+  box-shadow: 0 26px 50px -30px rgba(31, 27, 20, 0.35);
+}
+
+/* Concentric ring frame echoing the logo's circle mark */
+.ring-frame::before,
+.ring-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--gold-champagne) 40%, transparent);
+}
+.ring-frame::after {
+  inset: 7%;
+  border-color: color-mix(in srgb, var(--gold-champagne) 24%, transparent);
+}
+
+/*
+  ------------------------------------------------------------
+  Motion — one orchestrated system
+  ------------------------------------------------------------
+*/
+@keyframes tt-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes tt-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes tt-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tt-ring-in {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The signature jewel — a slow, quiet glimmer */
+@keyframes tt-sparkle {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: rotate(45deg) scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1.08);
+  }
+}
+
+@keyframes tt-bump {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Entrance (plays on load) */
+.animate-rise {
+  animation: tt-rise 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+.ring-in {
+  animation: tt-ring-in 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* Scroll reveal (JS toggles .is-visible) */
+.reveal {
+  opacity: 0;
+}
+.reveal.is-visible {
+  animation: tt-rise 0.75s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.gem-divider .gem {
+  animation: tt-sparkle 3.8s ease-in-out infinite;
+}
+
+.cart-bump {
+  animation: tt-bump 0.4s ease-out;
+}
+
+/* Accessibility — visible gold focus for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--gold-primary);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+  }
 }

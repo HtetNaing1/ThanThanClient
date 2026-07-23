@@ -149,11 +149,11 @@ export default function ActionLogsPage() {
             <Filter className="w-4 h-4 text-gray-500" />
             <span className="text-sm font-medium text-gray-700">Filters</span>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
             <select
               value={filters.userId}
               onChange={(e) => handleFilterChange('userId', e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500 text-sm"
             >
               <option value="">All Users</option>
               {users.map((user) => (
@@ -165,7 +165,7 @@ export default function ActionLogsPage() {
             <select
               value={filters.action}
               onChange={(e) => handleFilterChange('action', e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500 text-sm"
             >
               <option value="">All Actions</option>
               {Object.keys(actionLabels).map((action) => (
@@ -178,14 +178,14 @@ export default function ActionLogsPage() {
               type="date"
               value={filters.startDate}
               onChange={(e) => handleFilterChange('startDate', e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500 text-sm"
               placeholder="Start Date"
             />
             <input
               type="date"
               value={filters.endDate}
               onChange={(e) => handleFilterChange('endDate', e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500 text-sm"
               placeholder="End Date"
             />
           </div>
@@ -195,7 +195,7 @@ export default function ActionLogsPage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           {isLoading ? (
             <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold-600"></div>
             </div>
           ) : logs.length === 0 ? (
             <div className="text-center py-12">
@@ -205,22 +205,22 @@ export default function ActionLogsPage() {
           ) : (
             <>
               <div className="overflow-x-auto">
-                <table className="w-full">
+                <table className="w-full min-w-[700px]">
                   <thead className="bg-gray-50 border-b border-gray-100">
                     <tr>
-                      <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      <th className="text-left px-4 sm:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         User
                       </th>
-                      <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      <th className="text-left px-4 sm:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         Action
                       </th>
-                      <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      <th className="text-left px-4 sm:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         Target
                       </th>
-                      <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      <th className="text-left px-4 sm:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider hidden md:table-cell">
                         IP Address
                       </th>
-                      <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      <th className="text-left px-4 sm:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         Date
                       </th>
                     </tr>
@@ -228,34 +228,34 @@ export default function ActionLogsPage() {
                   <tbody className="divide-y divide-gray-100">
                     {logs.map((log) => (
                       <tr key={log._id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-amber-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                        <td className="px-4 sm:px-6 py-4">
+                          <div className="flex items-center gap-2 sm:gap-3">
+                            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gold-600 rounded-full flex items-center justify-center text-white text-xs sm:text-sm font-medium flex-shrink-0">
                               {log.user?.name?.charAt(0).toUpperCase() || '?'}
                             </div>
-                            <div>
-                              <p className="font-medium text-gray-900">{log.user?.name || 'Unknown'}</p>
+                            <div className="min-w-0">
+                              <p className="font-medium text-gray-900 text-sm truncate">{log.user?.name || 'Unknown'}</p>
                               <p className="text-xs text-gray-500 capitalize">{log.user?.role}</p>
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-4 sm:px-6 py-4">
                           <span
-                            className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${
+                            className={`inline-flex px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-xs font-medium whitespace-nowrap ${
                               actionLabels[log.action]?.color || 'bg-gray-100 text-gray-700'
                             }`}
                           >
                             {actionLabels[log.action]?.label || log.action}
                           </span>
                         </td>
-                        <td className="px-6 py-4">
-                          <p className="text-sm text-gray-900">{log.targetName}</p>
+                        <td className="px-4 sm:px-6 py-4">
+                          <p className="text-sm text-gray-900 truncate max-w-[120px] sm:max-w-none">{log.targetName}</p>
                           <p className="text-xs text-gray-500 capitalize">{log.targetType}</p>
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-500 font-mono">
+                        <td className="px-4 sm:px-6 py-4 text-sm text-gray-500 font-mono hidden md:table-cell">
                           {log.ipAddress || '-'}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-500">
+                        <td className="px-4 sm:px-6 py-4 text-xs sm:text-sm text-gray-500 whitespace-nowrap">
                           {formatDate(log.createdAt)}
                         </td>
                       </tr>
@@ -265,8 +265,8 @@ export default function ActionLogsPage() {
               </div>
 
               {/* Pagination */}
-              <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100">
-                <p className="text-sm text-gray-500">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 sm:px-6 py-4 border-t border-gray-100">
+                <p className="text-xs sm:text-sm text-gray-500 text-center sm:text-left">
                   Showing {(pagination.page - 1) * pagination.limit + 1} to{' '}
                   {Math.min(pagination.page * pagination.limit, pagination.total)} of{' '}
                   {pagination.total} results
@@ -279,8 +279,8 @@ export default function ActionLogsPage() {
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
-                  <span className="text-sm text-gray-700">
-                    Page {pagination.page} of {pagination.totalPages}
+                  <span className="text-xs sm:text-sm text-gray-700 whitespace-nowrap">
+                    {pagination.page} / {pagination.totalPages}
                   </span>
                   <button
                     onClick={() => setPagination((prev) => ({ ...prev, page: prev.page + 1 }))}
