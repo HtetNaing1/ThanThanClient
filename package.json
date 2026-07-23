@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "axios": "^1.13.2",
+    "axios": "^1.18.1",
     "lucide-react": "^0.555.0",
-    "next": "16.0.6",
-    "next-intl": "^4.5.7",
+    "next": "^16.2.11",
+    "next-intl": "^4.13.3",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-hook-form": "^7.67.0",
@@ -26,8 +26,12 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.0.6",
+    "eslint-config-next": "^16.2.11",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "postcss": "8.5.22",
+    "sharp": "0.35.3"
   }
 }
